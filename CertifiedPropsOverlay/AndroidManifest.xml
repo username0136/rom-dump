@@ -5,8 +5,8 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.pixelos.certifiedprops.overlay"
-    android:versionCode="250517"
-    android:versionName="2505.17">
+    android:versionCode="251113"
+    android:versionName="2511.13">
 
     <application android:hasCode="false"/>
     <overlay android:targetPackage="android"/>
