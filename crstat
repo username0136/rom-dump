@@ -1,0 +1,1 @@
+journalctl --user --unit crbuild.service -e -f

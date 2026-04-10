@@ -1,0 +1,14 @@
+#!/bin/bash
+
+cd /home/uclamp/los
+ccache -M 20G
+. build/envsetup.sh
+
+#a16
+lunch lineage_munch-bp4a-user
+m installclean
+export GLOBAL_THINLTO=true
+m bacon -j95
+
+
+

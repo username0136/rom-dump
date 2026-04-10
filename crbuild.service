@@ -1,0 +1,9 @@
+[Unit]
+Description=Custom Rom Build Script
+
+[Service]
+WorkingDirectory=/home/uclamp/los
+ExecStart=/home/uclamp/bin/crbuilder
+
+[Install]
+WantedBy=default.target

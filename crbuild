@@ -1,0 +1,16 @@
+#!/bin/fish
+
+set service crbuild
+
+# Check if service is active
+systemctl --user is-active --quiet $service
+
+if test $status -eq 0
+    systemctl --user stop $service
+    #sudo boost on
+    echo "Stopped $service"
+else
+    #sudo boost off
+    systemctl --user start $service
+    echo "Started $service"
+end
