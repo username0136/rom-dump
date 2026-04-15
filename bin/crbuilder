@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /home/uclamp/los
+cd ~/los
 ccache -M 20G
 . build/envsetup.sh
 
