@@ -8,7 +8,7 @@ ccache -M 20G
 lunch lineage_munch-bp4a-user
 m installclean
 export GLOBAL_THINLTO=true
-m bacon -j95
+m bacon -j"$(nproc)"
 
 
 
