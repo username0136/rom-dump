@@ -11,20 +11,18 @@ else
     git clone "$REPO_URL" "$SRC"
 fi
 
-# switch to fish on login (no sudo: exec from .bash_profile instead of chsh)
-FISH="$(command -v fish || true)"
+# launch fish from .bashrc for interactive shells (works with byobu)
+FISH="$(command -v fish 2>/dev/null || true)"
 if [ -z "$FISH" ]; then
-    echo "warning: fish not installed and no sudo — skipping shell switch" >&2
-else
-    if ! grep -qs 'exec .*fish' "$HOME/.bash_profile" 2>/dev/null; then
-        cat >> "$HOME/.bash_profile" <<EOF
-# launch fish for interactive logins
-if [ -t 1 ] && [ -z "\$FISH_STARTED" ]; then
-    export FISH_STARTED=1
-    exec "$FISH" -l
+    echo "warning: fish not found — skipping shell config" >&2
+elif ! grep -qs 'exec fish' "$HOME/.bashrc"; then
+    cat >> "$HOME/.bashrc" <<'EOF'
+
+# launch fish for interactive shells (byobu-compatible)
+if [[ $- == *i* ]] && command -v fish &>/dev/null; then
+    exec fish
 fi
 EOF
-    fi
 fi
 
 # install bin scripts
@@ -40,6 +38,17 @@ chmod a+x "$HOME/bin/repo"
 # ensure ~/bin is on PATH for bash (fish picks it up via ~/bin automatically)
 if ! grep -qs 'HOME/bin' "$HOME/.bashrc"; then
     echo 'export PATH="$HOME/bin:$PATH"' >> "$HOME/.bashrc"
+fi
+
+# alias code -> code-server in bash
+if ! grep -qs 'alias code=' "$HOME/.bashrc"; then
+    echo "alias code='code-server'" >> "$HOME/.bashrc"
+fi
+
+# alias code -> code-server in fish
+mkdir -p "$HOME/.config/fish"
+if ! grep -qs 'alias code' "$HOME/.config/fish/config.fish" 2>/dev/null; then
+    echo "alias code='code-server'" >> "$HOME/.config/fish/config.fish"
 fi
 
 # install crbuild user service
@@ -90,4 +99,4 @@ curl -fsSL https://raw.githubusercontent.com/PixelLineage/res/refs/heads/main/se
     -o "$HOME/los/setup.sh"
 chmod +x "$HOME/los/setup.sh"
 
-echo "done. log out / back in for fish to take effect."
+echo "done."

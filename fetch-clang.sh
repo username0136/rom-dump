@@ -2,7 +2,7 @@
 #
 # Fetches the latest "clang-stable" build referenced by AOSP's
 # main-kernel branch and extracts it into:
-#   prebuilts/clang/kernel/linux-x86/clang-stable
+#   prebuilts/clang/host/linux-x86/clang-stable
 #
 # Workflow:
 #   1. Read the README.md page from main-kernel/clang-stable/ to discover
@@ -17,7 +17,7 @@
 set -euo pipefail
 
 DEST_ROOT="${1:-$PWD}"
-DEST="${DEST_ROOT}/prebuilts/clang/kernel/linux-x86/clang-stable"
+DEST="${DEST_ROOT}/prebuilts/clang/host/linux-x86/clang-stable"
 
 BASE="https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86"
 README_URL="${BASE}/+/refs/heads/main-kernel/clang-stable/README.md"
