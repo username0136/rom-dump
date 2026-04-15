@@ -4,6 +4,10 @@ set -euo pipefail
 REPO_URL="https://github.com/username0136/rom-dump"
 SRC="$HOME/rom-dump"
 
+# git identity
+git config --global user.email "quick@disroot.org"
+git config --global user.name  "Quick"
+
 # clone (or update) this repo
 if [ -d "$SRC/.git" ]; then
     git -C "$SRC" pull --ff-only
@@ -30,6 +34,7 @@ mkdir -p "$HOME/bin"
 install -m 755 "$SRC/bin/crbuild"   "$HOME/bin/crbuild"
 install -m 755 "$SRC/bin/crbuilder" "$HOME/bin/crbuilder"
 install -m 755 "$SRC/bin/crstat"    "$HOME/bin/crstat"
+install -m 755 "$SRC/bin/ksync"     "$HOME/bin/ksync"
 
 # download repo tool
 curl -fsSL https://storage.googleapis.com/git-repo-downloads/repo -o "$HOME/bin/repo"

@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec repo sync --force-sync --force-checkout --retry-fetches=128 --no-tags --no-clone-bundle -j64 "$@"
