@@ -80,7 +80,16 @@ clone_into() {
     fi
 }
 
-clone_into https://github.com/PixelLineage/kernel_xiaomi_sm8250        kernel/xiaomi/sm8250
+KERNEL_DIR="$HOME/los/kernel/xiaomi/sm8250"
+if [ ! -d "$KERNEL_DIR/.git" ]; then
+    mkdir -p "$(dirname "$KERNEL_DIR")"
+    git clone --depth 50 https://github.com/PixelLineage/kernel_xiaomi_sm8250 "$KERNEL_DIR"
+    git -C "$KERNEL_DIR" submodule init
+    git -C "$KERNEL_DIR" submodule update
+else
+    echo "skip kernel/xiaomi/sm8250 (exists)"
+fi
+
 clone_into https://github.com/PixelLineage/device_xiaomi_sm8250-common device/xiaomi/sm8250-common
 clone_into https://github.com/PixelLineage/device_xiaomi_munch         device/xiaomi/munch
 clone_into https://github.com/PixelLineage/device_xiaomi_alioth        device/xiaomi/alioth
