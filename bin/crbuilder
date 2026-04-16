@@ -1,14 +1,37 @@
 #!/bin/bash
+set -e
+
+DEVICE_FILE="$HOME/.crbuild-device"
+DEVICE="$(cat "$DEVICE_FILE" 2>/dev/null || true)"
+DEVICE="${DEVICE:-munch}"
 
 cd ~/los
+
+SM8250_DIR="vendor/xiaomi/sm8250-common"
+SM8250_REMOTE="https://github.com/username0136/vendor_xiaomi_sm8250-common"
+ALIOTH_PATCHES=(
+    557714c27c6c7fa8f7e930b9e3291d38638854a2
+    085c519d188715ca3f2e3d85df73c43d7e615d0a
+)
+
+revert_alioth_patches() {
+    git -C "$SM8250_DIR" cherry-pick --abort 2>/dev/null || true
+    for ((i=${#ALIOTH_PATCHES[@]}-1; i>=0; i--)); do
+        git -C "$SM8250_DIR" revert --no-edit "${ALIOTH_PATCHES[$i]}" || true
+    done
+}
+
+if [ "$DEVICE" = "alioth" ]; then
+    git -C "$SM8250_DIR" fetch --depth 10 "$SM8250_REMOTE"
+    trap revert_alioth_patches EXIT INT TERM
+    for sha in "${ALIOTH_PATCHES[@]}"; do
+        git -C "$SM8250_DIR" cherry-pick "$sha"
+    done
+fi
+
 ccache -M 20G
 . build/envsetup.sh
-
-#a16
-lunch lineage_munch-bp4a-user
+lunch "lineage_${DEVICE}-bp4a-user"
 m installclean
 export GLOBAL_THINLTO=true
 m bacon -j"$(nproc)"
-
-
-

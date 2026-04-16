@@ -1,16 +1,39 @@
 #!/bin/fish
 
 set service crbuild
+set device_file $HOME/.crbuild-device
 
-# Check if service is active
+# if service is running, toggle it off (ignore any device arg)
 systemctl --user is-active --quiet $service
-
 if test $status -eq 0
     systemctl --user stop $service
-    #sudo boost on
     echo "Stopped $service"
-else
-    #sudo boost off
-    systemctl --user start $service
-    echo "Started $service"
+    exit 0
 end
+
+# pick device from arg or prompt
+set device $argv[1]
+if test -z "$device"
+    echo "select device:"
+    echo "  1) munch"
+    echo "  2) alioth"
+    read -P "> " choice
+    switch $choice
+        case 1 munch m
+            set device munch
+        case 2 alioth a
+            set device alioth
+        case '*'
+            echo "invalid choice"
+            exit 1
+    end
+end
+
+if test "$device" != "munch" -a "$device" != "alioth"
+    echo "unknown device: $device (expected munch or alioth)"
+    exit 1
+end
+
+echo $device > $device_file
+systemctl --user start $service
+echo "Started $service ($device)"

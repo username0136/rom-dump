@@ -4,6 +4,10 @@ set -euo pipefail
 REPO_URL="https://github.com/username0136/rom-dump"
 SRC="$HOME/rom-dump"
 
+# revanced prebuilts
+YT_URL="https://github.com/PixelLineage/rv/releases/download/3/youtube-morphe-module-v20.45.36-all.zip"
+YTMUSIC_URL="https://github.com/PixelLineage/rv/releases/download/2/music-morphe-module-v8.44.54-arm64-v8a.zip"
+
 # git identity
 git config --global user.email "quick@disroot.org"
 git config --global user.name  "Quick"
@@ -35,6 +39,7 @@ install -m 755 "$SRC/bin/crbuild"   "$HOME/bin/crbuild"
 install -m 755 "$SRC/bin/crbuilder" "$HOME/bin/crbuilder"
 install -m 755 "$SRC/bin/crstat"    "$HOME/bin/crstat"
 install -m 755 "$SRC/bin/ksync"     "$HOME/bin/ksync"
+install -m 755 "$SRC/bin/rvprep"    "$HOME/bin/rvprep"
 
 # download repo tool
 curl -fsSL https://storage.googleapis.com/git-repo-downloads/repo -o "$HOME/bin/repo"
@@ -103,10 +108,17 @@ clone_into https://gitlab.com/munch-qwik/vt/1_vendor_xiaomi_munch         vendor
 clone_into https://gitlab.com/munch-qwik/vt/1_vendor_xiaomi_munch         vendor/xiaomi/alioth        alioth-q2
 clone_into https://gitlab.com/munch-qwik/vt/1_vendor_xiaomi_sm8250-common vendor/xiaomi/sm8250-common q2
 
-# fetch prebuilt clang-stable for kernel builds
-if [ ! -x "$HOME/los/prebuilts/clang/kernel/linux-x86/clang-stable/bin/clang" ]; then
-    bash "$SRC/fetch-clang.sh" "$HOME/los"
-fi
+# munch firmware (splash branch of this repo)
+clone_into https://github.com/username0136/rom-dump vendor/xiaomi/munch-firmware splash
+
+# vendor/revanced + prebuilt processing
+clone_into https://github.com/PixelLineage/vendor_revanced vendor/revanced
+YT_URL="$YT_URL" YTMUSIC_URL="$YTMUSIC_URL" "$HOME/bin/rvprep"
+
+# fetch prebuilt clang-stable for kernel builds (disabled for now)
+# if [ ! -x "$HOME/los/prebuilts/clang/kernel/linux-x86/clang-stable/bin/clang" ]; then
+#     bash "$SRC/fetch-clang.sh" "$HOME/los"
+# fi
 
 # fetch PixelLineage setup script
 curl -fsSL https://raw.githubusercontent.com/PixelLineage/res/refs/heads/main/setup.sh \
