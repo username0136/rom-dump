@@ -14,7 +14,7 @@ TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT
 
 place() {
-    local zip_url="$1" main_name="$2" app_dest="$3" patched_dest="$4"
+    local zip_url="$1" app_dest="$2" patched_dest="$3"
     local work="$TMP/$(basename "$app_dest" .apk)"
     mkdir -p "$work"
 
@@ -23,26 +23,26 @@ place() {
     unzip -q "$work.zip" -d "$work"
 
     local main_apk base_apk
-    main_apk=$(find "$work" -name "$main_name" -print -quit)
-    base_apk=$(find "$work" -name 'base.apk'  -print -quit)
+    # main apk = any .apk at the zip root that isn't base.apk
+    main_apk=$(find "$work" -maxdepth 2 -name '*.apk' ! -name 'base.apk' -print -quit)
+    base_apk=$(find "$work" -maxdepth 2 -name 'base.apk' -print -quit)
 
     if [ -z "$main_apk" ] || [ -z "$base_apk" ]; then
-        echo "error: could not locate $main_name or base.apk in $zip_url" >&2
+        echo "error: could not locate main apk or base.apk in $zip_url" >&2
+        ls -la "$work" >&2
         exit 1
     fi
 
     install -D -m 644 "$main_apk" "$VENDOR/$app_dest"
     install -D -m 644 "$base_apk" "$VENDOR/$patched_dest"
-    echo "[+] placed $app_dest and $patched_dest"
+    echo "[+] placed $(basename "$main_apk") -> $app_dest and base.apk -> $patched_dest"
 }
 
 place "$YT_URL" \
-      "com.google.android.apps.youtube.apk" \
       "common/product/app/YouTube/YouTube.apk" \
       "common/product/etc/rv/YouTube_patched.apk"
 
 place "$YTMUSIC_URL" \
-      "com.google.android.apps.youtube.music.apk" \
       "common/product/app/YTMusic/YTMusic.apk" \
       "common/product/etc/rv/YTMusic_patched.apk"
 
