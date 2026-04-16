@@ -125,4 +125,4 @@ curl -fsSL https://raw.githubusercontent.com/PixelLineage/res/refs/heads/main/se
     -o "$HOME/los/setup.sh"
 chmod +x "$HOME/los/setup.sh"
 
-echo "done."
+echo "done. don't forget to put keys in vendor/lineage-priv"
