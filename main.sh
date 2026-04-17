@@ -5,8 +5,8 @@ REPO_URL="https://github.com/username0136/rom-dump"
 SRC="$HOME/rom-dump"
 
 # revanced prebuilts
-YT_URL="https://github.com/PixelLineage/rv/releases/download/3/youtube-morphe-module-v20.45.36-all.zip"
-YTMUSIC_URL="https://github.com/PixelLineage/rv/releases/download/2/music-morphe-module-v8.44.54-arm64-v8a.zip"
+YT_URL="https://github.com/PixelLineage/rv/releases/download/4/youtube-revanced-module-v20.05.46-all.zip"
+YTMUSIC_URL="https://github.com/PixelLineage/rv/releases/download/4/music-revanced-module-v8.30.54-arm64-v8a.zip"
 
 # git identity
 git config --global user.email "quick@disroot.org"
