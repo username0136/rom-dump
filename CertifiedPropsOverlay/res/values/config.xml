@@ -6,8 +6,8 @@
 <resources>
     <!-- Build properties from a GMS certified device against current platform SPL level -->
     <string-array name="config_certifiedBuildProperties" translatable="false">
-        <item>FINGERPRINT:google/bluejay_beta/bluejay:17/CP21.260306.017/15063635:user/release-keys</item>
-        <item>VERSION.SECURITY_PATCH:2026-03-05</item>
+        <item>FINGERPRINT:google/bluejay_beta/bluejay:CinnamonBun/CP31.260403.005.A1/15246833:user/release-keys</item>
+        <item>VERSION.SECURITY_PATCH:2026-04-05</item>
         <item>VERSION.DEVICE_INITIAL_SDK_INT:32</item>
     </string-array>
 </resources>
