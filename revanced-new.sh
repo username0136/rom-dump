@@ -26,8 +26,13 @@ place() {
     unzip -q "$work.zip" -d "$work"
 
     local main_apk base_apk
-    main_apk=$(find "$work" -maxdepth 2 -name '*.apk' ! -name 'base.apk' -print -quit)
-    base_apk=$(find "$work" -maxdepth 2 -name 'base.apk' -print -quit)
+    # patched apk is always base.apk at the zip root
+    base_apk=$(find "$work" -maxdepth 1 -name 'base.apk' -print -quit)
+    # stock apk: newer zips put it in stock/, older ones ship it at the
+    # root named after the package
+    main_apk=$(find "$work" -maxdepth 2 -path '*/stock/*.apk' -print -quit)
+    [ -n "$main_apk" ] || \
+        main_apk=$(find "$work" -maxdepth 1 -name '*.apk' ! -name 'base.apk' -print -quit)
 
     if [ -z "$main_apk" ] || [ -z "$base_apk" ]; then
         echo "error: could not locate main apk or base.apk in $zip_url" >&2
