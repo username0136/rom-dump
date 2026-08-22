@@ -5,8 +5,8 @@ REPO_URL="https://github.com/username0136/rom-dump"
 SRC="$HOME/rom-dump"
 
 # revanced prebuilts
-YT_URL="https://github.com/PixelLineage/rv/releases/download/4/youtube-revanced-module-v20.05.46-all.zip"
-YTMUSIC_URL="https://github.com/PixelLineage/rv/releases/download/4/music-revanced-module-v8.30.54-arm64-v8a.zip"
+YT_URL="https://github.com/PixelLineage/rv/releases/download/5/youtube-revanced-module-v20.51.39-all.zip"
+YTMUSIC_URL="https://github.com/PixelLineage/rv/releases/download/5/music-revanced-module-v9.15.51-arm64-v8a.zip"
 
 # git identity
 git config --global user.email "quick@disroot.org"
