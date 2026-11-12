@@ -31,7 +31,7 @@ fi
 
 ccache -M 20G
 . build/envsetup.sh
-lunch "lineage_${DEVICE}-bp4a-user"
+lunch "lineage_${DEVICE}-cp2a-user"
 m installclean
 export GLOBAL_THINLTO=true
 m bacon -j"$(nproc)"

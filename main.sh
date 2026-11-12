@@ -19,20 +19,6 @@ else
     git clone "$REPO_URL" "$SRC"
 fi
 
-# launch fish from .bashrc for interactive shells (works with byobu)
-FISH="$(command -v fish 2>/dev/null || true)"
-if [ -z "$FISH" ]; then
-    echo "warning: fish not found — skipping shell config" >&2
-elif ! grep -qs 'exec fish' "$HOME/.bashrc"; then
-    cat >> "$HOME/.bashrc" <<'EOF'
-
-# launch fish for interactive shells (byobu-compatible)
-if [[ $- == *i* ]] && command -v fish &>/dev/null; then
-    exec fish
-fi
-EOF
-fi
-
 # install bin scripts
 mkdir -p "$HOME/bin"
 install -m 755 "$SRC/bin/crbuild"   "$HOME/bin/crbuild"
@@ -64,13 +50,13 @@ fi
 # install crbuild user service
 mkdir -p "$HOME/.config/systemd/user"
 install -m 644 "$SRC/crbuild.service" "$HOME/.config/systemd/user/crbuild.service"
-systemctl --user daemon-reload
+systemctl --user daemon-reload || echo "warning: no user systemd bus, skipping daemon-reload" >&2
 
 # clone LineageOS sources
 if [ ! -d "$HOME/los/.repo" ]; then
     mkdir -p "$HOME/los"
     cd "$HOME/los"
-    "$HOME/bin/repo" init -u https://github.com/LineageOS/android.git -b lineage-23.2 --git-lfs
+    "$HOME/bin/repo" init -u https://github.com/LineageOS/android.git -b lineage-24.0 --git-lfs
     "$HOME/bin/repo" sync --force-sync --force-checkout --retry-fetches=128 --no-tags --no-clone-bundle -j128
 fi
 
