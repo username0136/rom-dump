@@ -3,8 +3,8 @@
 # Run from the rom root.
 set -euo pipefail
 
-YT_URL="${YT_URL:-https://github.com/PixelLineage/rv/releases/download/5/youtube-revanced-module-v20.51.39-all.zip}"
-YTMUSIC_URL="${YTMUSIC_URL:-https://github.com/PixelLineage/rv/releases/download/5/music-revanced-module-v9.15.51-arm64-v8a.zip}"
+YT_URL="${YT_URL:-https://github.com/PixelLineage/rv/releases/download/6/youtube-morphe-module-v21.28.208-all.zip}"
+YTMUSIC_URL="${YTMUSIC_URL:-https://github.com/PixelLineage/rv/releases/download/6/music-morphe-module-v9.30.53-arm64-v8a.zip}"
 
 VENDOR="$PWD/vendor/revanced"
 
